@@ -31,4 +31,3 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip ) /etc/opt/it21_ui_
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chmod ) 755 /etc/opt/it21_ui_*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chgrp ) $userAndGroupName /etc/opt/it21_ui_*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which mv ) /etc/opt/it21_ui_* /etc/opt/it21_ui_*" >> /etc/sudoers.d/$userAndGroupName
-echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rm ) -rf java_gui_*" >> /etc/sudoers.d/$userAndGroupName

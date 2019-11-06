@@ -1,0 +1,148 @@
+plugins {
+	id 'nebula.ospackage' version '4.10.0'
+	id 'ivy-publish'
+	id 'com.jfrog.artifactory' version '4.7.3'
+}
+
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+ospackage {
+	packageName = 'apg-install-rpm'
+	version = '1.0'
+	release = 1
+	os = LINUX
+	type = BINARY
+	arch = NOARCH
+	user = "root"
+	preInstall file("${buildDir}/rpm/pre-install.sh")
+}
+
+task copyRpmScripts (type: Copy) {
+	from "packaging/rpm"
+	into "${buildDir}/rpm"
+	include "**/*.sh"
+	filteringCharset = 'UTF-8'
+}
+
+def finalArtifactName = buildRpm.outputs.getFiles().getSingleFile().getName()
+
+publishing {
+	publications {
+		yumRpm(IvyPublication) {
+			artifact buildRpm.outputs.getFiles().getSingleFile()
+		}
+		
+		// CM-232: we don't use the published tar.gz
+		//		   keeping it in comment for now, in case we need to active it again.
+		/*
+		jadasgtar(MavenPublication) {
+			nebulaDependencyManagement.fromConfigurations { configurations.jadasRuntime }
+			artifact source: jadasPkgAsTar, extension: 'tar.gz'
+			
+			artifactId = 'it21-jadas-service-dist-gtar'
+			groupId = 'com.affichage.it21'
+			version = "${publishVersion}"
+
+			if ("${publishVersion}".endsWith("SNAPSHOT")) {
+				repoTarget = "${mavenSnapshotsRepoName}"
+			}
+
+			pom.withXml { asNode().appendNode('description', 'From versions.properties generated dependency management pom.xml') }
+		}
+		*/
+	}
+	repositories {
+		ivy {
+			name = "yumRepoDev"
+			url  "${mavenRepoBaseUrl}/yumrepodev"
+			credentials {
+				username = mavenRepoUser
+				password = mavenRepoPwd
+			}
+			
+			layout "pattern", {
+				// JHE (Dec 2018) : No idea why ?!?!?, but following just doesn't work (it creates an empty RPM file): artifact buildRpm.outputs.getFiles().getSingleFile().getName()
+				//					The workaround is to include at least one of the following pre-defined pattern : http://ant.apache.org/ivy/history/master/concept.html#patterns
+				//				    In our case, we remove the extension .... and re-include it using the pattern.
+				artifact "${finalArtifactName.substring(0,finalArtifactName.length()-4)}.[ext]"
+			}
+		}
+		
+		maven {
+			name ='deployRepo'
+			url  "${mavenRepoBaseUrl}/yumrepodev"
+			credentials {
+				username = mavenRepoUser
+				password = mavenRepoPwd
+			}
+		}
+	}
+}
+
+artifactory {
+	contextUrl = "${mavenRepoBaseUrl}"
+	publish {
+
+		repository {
+			repoKey = "yumrepodev"
+			username = "${mavenRepoUser}"
+			password = "${mavenRepoPwd}"
+			ivy {
+				 artifactLayout = "${buildRpm.outputs.getFiles().getSingleFile().getName()}"
+			}
+		}
+		defaults {
+			publications ('yumRpm')
+			publishBuildInfo = false
+			publishArtifacts = true
+			publishPom = false
+			publishIvy = false
+		}
+	}
+}
+
+
+/*
+repositories {
+	maven {
+		credentials {
+			username "$mavenRepoUser"
+			password "$mavenRepoPwd"
+		}
+		url "${mavenRepoBaseUrl}/yumrepodev"
+	}
+}
+
+publishing {
+	publications {
+		yumRpm(IvyPublication) {
+			artifact buildRpm.outputs.getFiles().getSingleFile()
+		}
+	}
+}
+
+artifactory {
+	contextUrl = "${mavenRepoBaseUrl}"
+	publish {
+		repository {
+			repoKey = "yumrepodev"
+			username = "${mavenRepoUser}"
+			password = "${mavenRepoPwd}"
+			ivy {
+				 artifactLayout = "${buildRpm.outputs.getFiles().getSingleFile().getName()}"
+			}
+		}
+		defaults {
+			publications ('yumRpm')
+			publishBuildInfo = false
+			publishArtifacts = true
+			publishPom = false
+			publishIvy = false
+		}
+	}
+}
+*/
+
+buildRpm {dependsOn copyRpmScripts}
+artifactoryPublish {dependsOn buildRpm}

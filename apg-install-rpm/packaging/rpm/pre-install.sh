@@ -24,6 +24,7 @@ yumRepoOptions="--disablerepo=* --enablerepo=apg-artifactory*"
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which yum ) clean all $yumRepoOptions" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which yum ) -y install $yumRepoOptions apg-jadas-service-*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which mkdir ) /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which mkdir ) -p /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chmod ) 775 /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chmod ) -R 775 /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chgrp ) -R $userAndGroupName /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName

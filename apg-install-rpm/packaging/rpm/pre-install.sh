@@ -18,6 +18,18 @@ else
   /usr/sbin/useradd -m -r -c "$userAndGroupName user" $userAndGroupName -g $userAndGroupName 2> /dev/null || :
 fi
 
+downloadDir="/home/apg_install/downloads"
+if [-d "$downloadDir"]; then
+  echo "$downloadDir already exists"
+else
+  echo "Creating $downloadDir"
+  mkdir $downloadDir
+  echo "Changing group for $downloadDir"
+  chgrp users $downloadDir
+  echo "Changing owner for $downloadDir"
+  chown apg_install $downloadDir
+fi
+
 echo "Adding Sudoers Rights for $userAndGroupName"
 echo "Defaults:$userAndGroupName "'!'"requiretty" > /etc/sudoers.d/$userAndGroupName
 yumRepoOptions="--disablerepo=* --enablerepo=apg-artifactory*"
@@ -32,3 +44,8 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip ) /opt/it21_ui* -d 
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chmod ) 755 /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chgrp ) $userAndGroupName /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which mv ) /opt/it21_ui* /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
+
+echo "Adding Sudoers Rights for Digiflex Installations"
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-digiflex-jadas-*" >> /etc/sudoers.d/$userAndGroupName
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-digiflex-web-it21*" >> /etc/sudoers.d/$userAndGroupName
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-digiflex-web-sa*" >> /etc/sudoers.d/$userAndGroupName

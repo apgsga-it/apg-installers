@@ -52,3 +52,4 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-
 
 echo "Adding Sudoers Rights for GUI(s) Installations, it might become more restrictive"
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip" >> /etc/sudoers.d/$userAndGroupName
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip -d*" >> /etc/sudoers.d/$userAndGroupName

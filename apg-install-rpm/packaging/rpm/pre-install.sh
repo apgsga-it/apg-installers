@@ -49,3 +49,6 @@ echo "Adding Sudoers Rights for Digiflex Installations"
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-digiflex-jadas-*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-digiflex-web-it21*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-digiflex-web-sa*" >> /etc/sudoers.d/$userAndGroupName
+
+echo "Adding Sudoers Rights for GUI(s) Installations, it might become more restrictive"
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip" >> /etc/sudoers.d/$userAndGroupName

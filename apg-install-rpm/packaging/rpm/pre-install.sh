@@ -44,6 +44,7 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip ) /opt/it21_ui* -d 
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chmod ) 755 /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chgrp ) $userAndGroupName /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which mv ) /opt/it21_ui* /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chown ) -R apg_install /opt/it21_ui*" >> /etc/sudoers.d/$userAndGroupName
 
 echo "Adding Sudoers Rights for Digiflex Installations"
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-digiflex-jadas-*" >> /etc/sudoers.d/$userAndGroupName

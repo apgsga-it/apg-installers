@@ -57,3 +57,6 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which chmod ) -R 755 /opt/digif
 echo "Adding Sudoers Rights for GUI(s) Installations, it might become more restrictive"
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip" >> /etc/sudoers.d/$userAndGroupName
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip -d*" >> /etc/sudoers.d/$userAndGroupName
+
+echo "Adding Sudoers Rights for PD2 oidc Installations"
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/downloads/apg-pd2-*" >> /etc/sudoers.d/$userAndGroupName

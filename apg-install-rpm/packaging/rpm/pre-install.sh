@@ -59,4 +59,4 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip" >> /etc/sud
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip -d*" >> /etc/sudoers.d/$userAndGroupName
 
 echo "Adding Sudoers Rights for PD2 oidc Installations"
-echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/downloads/apg-pd2-*" >> /etc/sudoers.d/$userAndGroupName
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-pd2-*" >> /etc/sudoers.d/$userAndGroupName

@@ -9,7 +9,7 @@ apply plugin: 'maven-publish'
 
 ospackage {
 	packageName = 'apg-install-rpm'
-	version = '1.11'
+	version = '1.12'
 	release = 1
 	os = LINUX
 	type = BINARY

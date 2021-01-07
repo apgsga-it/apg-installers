@@ -60,3 +60,6 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip -d*" >> /etc
 
 echo "Adding Sudoers Rights for PD2 oidc Installations"
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-pd2-*" >> /etc/sudoers.d/$userAndGroupName
+
+echo "Adding Sudoers Rights for werbemittel-portal Installations"
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-my-*" >> /etc/sudoers.d/$userAndGroupName

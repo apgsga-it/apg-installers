@@ -57,3 +57,6 @@ echo "$userAndGroupName ALL= (root) NOPASSWD: $( which unzip) *.zip -d*" >> /etc
 
 echo "Adding Sudoers Rights for all services starting with apg-"
 echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/apg-*" >> /etc/sudoers.d/$userAndGroupName
+
+echo "Adding Sudoers Rights for all services within download folder -> required for Multiservice_cm"
+echo "$userAndGroupName ALL= (root) NOPASSWD: $( which rpm ) -Uvh downloads/*" >> /etc/sudoers.d/$userAndGroupName
